@@ -1,16 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         applicationId "com.dlgdev.goivcalc"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -23,15 +25,14 @@ android {
 
 dependencies {
     kapt runtime.dagger_compiler
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile runtime.dagger
     compile runtime.appcompat
     compile runtime.constraint_layout
     compile runtime.kotlin_stdlib
 
-    testCompile test.junit
+    testCompile testDeps.junit
 
-    androidTestCompile(test.espresso_core, {
+    androidTestCompile(testDeps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     })
