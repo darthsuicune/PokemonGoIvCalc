@@ -1,0 +1,24 @@
+ext {
+    //Runtime
+    def support_library_version = "25.3.1"
+    def constraint_layout_version = "1.0.2"
+    def dagger_version = 2.10
+    runtime = [
+            dagger_compiler: "com.google.dagger:dagger-compiler:${dagger_version}",
+            dagger: "com.google.dagger:dagger-android-support:${dagger_version}",
+            appcompat: "com.android.support:appcompat-v7:${support_library_version}",
+            constraint_layout: "com.android.support.constraint:constraint-layout:${constraint_layout_version}",
+            kotlin_stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    ]
+
+    //Test
+    def junit_version = "4.12"
+    def mockito_version = "2.7.22"
+    def espresso_version = "2.2.2"
+
+    test = [
+            junit: "junit:junit:${junit_version}",
+            mockito: "org.mockito:mockito-core:${mockito_version}",
+            espresso_core: "com.android.support.test.espresso:espresso-core:${espresso_version}"
+    ]
+}
