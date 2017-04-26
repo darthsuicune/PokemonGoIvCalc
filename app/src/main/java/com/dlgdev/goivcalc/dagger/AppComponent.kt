@@ -2,10 +2,9 @@ package com.dlgdev.goivcalc.dagger
 
 import com.dlgdev.goivcalc.App
 import dagger.Component
-import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 
-@Component(modules = arrayOf(AndroidInjectionModule::class, CalculatorActivityModule::class))
-interface AppComponent {
-    fun inject(app: App)
-
+@Component(modules = arrayOf(AndroidSupportInjectionModule::class, CalculatorActivityModule::class))
+interface AppComponent : AndroidInjector<App> {
 }

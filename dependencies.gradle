@@ -4,7 +4,8 @@ ext {
     def constraint_layout_version = "1.0.2"
     def dagger_version = "2.11-rc1"
     runtime = [
-            dagger_compiler: "com.google.dagger:dagger-android-processor:${dagger_version}",
+            dagger_processor: "com.google.dagger:dagger-android-processor:${dagger_version}",
+            dagger_compiler: "com.google.dagger:dagger-compiler:${dagger_version}",
             dagger: "com.google.dagger:dagger-android-support:${dagger_version}",
             appcompat: "com.android.support:appcompat-v7:${support_library_version}",
             constraint_layout: "com.android.support.constraint:constraint-layout:${constraint_layout_version}",

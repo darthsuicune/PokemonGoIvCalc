@@ -24,6 +24,7 @@ android {
 }
 
 dependencies {
+    kapt runtime.dagger_processor
     kapt runtime.dagger_compiler
     compile runtime.dagger
     compile runtime.appcompat
