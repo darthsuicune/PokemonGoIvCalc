@@ -6,5 +6,4 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 
 @Component(modules = arrayOf(AndroidSupportInjectionModule::class, CalculatorActivityModule::class))
-interface AppComponent : AndroidInjector<App> {
-}
+interface AppComponent : AndroidInjector<App>

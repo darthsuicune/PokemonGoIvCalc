@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GoIvCalc</string>
+    <string name="results_label">Results</string>
+    <string name="def_check_box">Def</string>
+    <string name="att_check_box">Atk</string>
+    <string name="hp_check_box">HP</string>
+    <string name="mon_name_hint">Name</string>
 </resources>

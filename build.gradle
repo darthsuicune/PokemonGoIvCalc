@@ -3,8 +3,8 @@ buildscript {
     ext.kotlin_version = '1.1.2'
     ext.gradle_plugin_version = "2.4.0-alpha6"
     repositories {
+        //Workaround for gradle plugin not being available
         maven {
-            //Workaround for gradle plugin not being available
             url "$System.env.HOME/android-studio/gradle/m2repository"
         }
         jcenter()
@@ -12,10 +12,39 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
+}
+
+ext {
+    //Compiler/Annotation Processor
+    def dagger_version = "2.11-rc1"
+    compilerDeps = [
+            dagger_processor: "com.google.dagger:dagger-android-processor:${dagger_version}",
+            dagger_compiler: "com.google.dagger:dagger-compiler:${dagger_version}"
+    ]
+
+    //Runtime
+    def support_library_version = "25.3.1"
+    def constraint_layout_version = "1.0.2"
+    runtime = [
+            dagger: "com.google.dagger:dagger-android-support:${dagger_version}",
+            appcompat: "com.android.support:appcompat-v7:${support_library_version}",
+            constraint_layout: "com.android.support.constraint:constraint-layout:${constraint_layout_version}",
+            kotlin_stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            recycler_view: "com.android.support:recyclerview-v7:${support_library_version}"
+    ]
+
+    //Test
+    def junit_version = "4.12"
+    def mockito_version = "2.8.8"
+    def espresso_version = "2.2.2"
+
+    testDeps = [
+            junit: "junit:junit:${junit_version}",
+            mockito: "org.mockito:mockito-android:${mockito_version}",
+            mockito_core: "org.mockito:mockito-core:${mockito_version}",
+            espresso_core: "com.android.support.test.espresso:espresso-core:${espresso_version}"
+    ]
 }
 
 allprojects {
@@ -23,8 +52,6 @@ allprojects {
         jcenter()
     }
 }
-
-apply from: "dependencies.gradle"
 
 task clean(type: Delete) {
     delete rootProject.buildDir
