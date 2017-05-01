@@ -5,4 +5,8 @@
     <string name="att_check_box">Atk</string>
     <string name="hp_check_box">HP</string>
     <string name="mon_name_hint">Name</string>
+    <string name="dust_label">Dust</string>
+    <string name="cp_label">CP</string>
+    <string name="leader_saying">Leader saying</string>
+    <string name="power_up">Used power up</string>
 </resources>
