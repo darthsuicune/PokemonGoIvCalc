@@ -38,7 +38,7 @@
         />
 
     <CheckBox
-        android:id="@+id/att_check_box"
+        android:id="@+id/atk_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -52,13 +52,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/def_check_box"
-        app:layout_constraintStart_toEndOf="@+id/att_check_box"
+        app:layout_constraintStart_toEndOf="@+id/atk_check_box"
         android:layout_marginStart="16dp"
-        app:layout_constraintTop_toTopOf="@+id/att_check_box"
+        app:layout_constraintTop_toTopOf="@+id/atk_check_box"
         />
 
     <Spinner
-        android:id="@+id/IV_leader_saying"
+        android:id="@+id/iv_leader_saying"
         android:layout_width="136dp"
         android:layout_height="26dp"
         android:entries="@array/iv_leader_sayings"
@@ -166,7 +166,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/leader_saying"
-        app:layout_constraintStart_toStartOf="@+id/IV_leader_saying"
+        app:layout_constraintStart_toStartOf="@+id/iv_leader_saying"
         app:layout_constraintTop_toTopOf="@+id/def_check_box"
         />
 
