@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="iv_leader_sayings">
-        <item>0-7</item>
-        <item>8-12</item>
-        <item>13-14</item>
-        <item>15</item>
+        <item>"0-7"</item>
+        <item>"8-12"</item>
+        <item>"13-14"</item>
+        <item>"15"</item>
     </array>
     <array name="dust">
-        <item>200</item>
-        <item>400</item>
-        <item>600</item>
-        <item>800</item>
-        <item>1000</item>
-        <item>1300</item>
-        <item>1600</item>
-        <item>1900</item>
-        <item>2200</item>
-        <item>2500</item>
-        <item>3000</item>
-        <item>3500</item>
-        <item>4000</item>
-        <item>4500</item>
-        <item>5000</item>
-        <item>6000</item>
-        <item>7000</item>
-        <item>8000</item>
-        <item>9000</item>
-        <item>10000</item>
+        <item>"200"</item>
+        <item>"400"</item>
+        <item>"600"</item>
+        <item>"800"</item>
+        <item>"1000"</item>
+        <item>"1300"</item>
+        <item>"1600"</item>
+        <item>"1900"</item>
+        <item>"2200"</item>
+        <item>"2500"</item>
+        <item>"3000"</item>
+        <item>"3500"</item>
+        <item>"4000"</item>
+        <item>"4500"</item>
+        <item>"5000"</item>
+        <item>"6000"</item>
+        <item>"7000"</item>
+        <item>"8000"</item>
+        <item>"9000"</item>
+        <item>"10000"</item>
     </array>
 </resources>

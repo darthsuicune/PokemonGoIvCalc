@@ -5,5 +5,6 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 
-@Component(modules = arrayOf(AndroidSupportInjectionModule::class, CalculatorActivityModule::class))
+@Component(modules = arrayOf(AndroidSupportInjectionModule::class, CalculatorActivityModule::class,
+        MonsModule::class))
 interface AppComponent : AndroidInjector<App>

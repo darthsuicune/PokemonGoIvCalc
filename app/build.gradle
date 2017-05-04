@@ -31,6 +31,7 @@ dependencies {
     compile runtime.constraint_layout
     compile runtime.kotlin_stdlib
     compile runtime.recycler_view
+    compile runtime.gson
 
     testCompile testDeps.junit
     testCompile testDeps.mockito_core

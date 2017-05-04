@@ -1,4 +1,3 @@
-
 package com.dlgdev.goivcalc.ui
 
 import android.os.Bundle
@@ -14,6 +13,7 @@ import javax.inject.Inject
 
 class CalculatorActivity : DaggerAppCompatActivity() {
     @Inject lateinit var calc: Calculator
+    @Inject lateinit var nameAdapter: PokemonNameAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupNameView() {
-        name_view.setAdapter()
+        name_view.setAdapter(nameAdapter)
     }
 
     fun setupDustView() {
@@ -75,25 +75,25 @@ class CalculatorActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupUsedPowerUp() {
-        power_up_check_box.setOnCheckedChangeListener { buttonView, isChecked ->
+        power_up_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.usedPowerUp = isChecked
         }
     }
 
     private fun setupHpCheckBox() {
-        hp_check_box.setOnCheckedChangeListener { buttonView, isChecked ->
+        hp_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.hpIsMax = isChecked
         }
     }
 
     private fun setupAtkCheckBox() {
-        atk_check_box.setOnCheckedChangeListener { buttonView, isChecked ->
+        atk_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.atkIsMax = isChecked
         }
     }
 
     private fun setupDefCheckBox() {
-        def_check_box.setOnCheckedChangeListener { buttonView, isChecked ->
+        def_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.defIsMax = isChecked
         }
     }
