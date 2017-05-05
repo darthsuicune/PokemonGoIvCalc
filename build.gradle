@@ -17,10 +17,12 @@ buildscript {
 
 ext {
     //Compiler/Annotation Processor
+    def butterknife_version = "8.5.1"
     def dagger_version = "2.11-rc2"
     compilerDeps = [
-            dagger_processor: "com.google.dagger:dagger-android-processor:${dagger_version}",
-            dagger_compiler : "com.google.dagger:dagger-compiler:${dagger_version}"
+            butterknife_compiler: "com.jakewharton:butterknife-compiler:${butterknife_version}",
+            dagger_processor    : "com.google.dagger:dagger-android-processor:${dagger_version}",
+            dagger_compiler     : "com.google.dagger:dagger-compiler:${dagger_version}"
     ]
 
     //Runtime
@@ -28,6 +30,7 @@ ext {
     def constraint_layout_version = "1.0.2"
     def gson_version = "2.8.0"
     runtime = [
+            butterknife      : "com.jakewharton:butterknife:${butterknife_version}",
             gson             : "com.google.code.gson:gson:${gson_version}",
             dagger           : "com.google.dagger:dagger-android-support:${dagger_version}",
             appcompat        : "com.android.support:appcompat-v7:${support_library_version}",

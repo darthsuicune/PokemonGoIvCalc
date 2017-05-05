@@ -26,6 +26,8 @@ android {
 dependencies {
     kapt compilerDeps.dagger_processor
     kapt compilerDeps.dagger_compiler
+    kapt compilerDeps.butterknife_compiler
+    compile runtime.butterknife
     compile runtime.dagger
     compile runtime.appcompat
     compile runtime.constraint_layout

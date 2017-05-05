@@ -9,4 +9,5 @@
     <string name="cp_label">CP</string>
     <string name="leader_saying">Leader saying</string>
     <string name="power_up">Used power up</string>
+    <string name="error_number_not_valid">Invalid, write the value of your pokemon, only the number.</string>
 </resources>
