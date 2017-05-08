@@ -9,6 +9,7 @@ import dagger.android.support.DaggerApplication
 class App : DaggerApplication(), HasActivityInjector {
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder()
-                .monsModule(MonsModule(applicationContext)).build()
+                .monsModule(MonsModule(applicationContext))
+                .build()
     }
 }

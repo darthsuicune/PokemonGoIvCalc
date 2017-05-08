@@ -11,11 +11,11 @@
         android:id="@+id/dust_view"
         android:layout_width="115dp"
         android:layout_height="36dp"
-        android:layout_marginStart="31dp"
         android:entries="@array/dust"
-        app:layout_constraintStart_toEndOf="@+id/name_view"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/dust_label"/>
+        app:layout_constraintTop_toBottomOf="@+id/dust_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"/>
 
     <android.support.v7.widget.AppCompatAutoCompleteTextView
         android:id="@+id/name_view"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:checked="false"
         android:text="@string/hp_check_box"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/leader_saying"
         app:layout_constraintStart_toStartOf="@+id/leader_saying"
         />
@@ -45,7 +45,7 @@
         android:text="@string/att_check_box"
         app:layout_constraintStart_toEndOf="@+id/hp_check_box"
         app:layout_constraintTop_toTopOf="@+id/hp_check_box"
-        />
+        android:layout_marginTop="0dp"/>
 
     <CheckBox
         android:id="@+id/def_check_box"
@@ -63,10 +63,10 @@
         android:layout_height="26dp"
         android:entries="@array/iv_leader_sayings"
         android:spinnerMode="dropdown"
-        app:layout_constraintStart_toEndOf="@+id/def_check_box"
-        android:layout_marginStart="27dp"
         android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/leader_saying"/>
+        app:layout_constraintTop_toBottomOf="@+id/leader_saying"
+        app:layout_constraintEnd_toEndOf="@+id/power_up_check_box"
+        android:layout_marginEnd="0dp"/>
 
     <TextView
         android:id="@+id/results_label"
@@ -75,7 +75,7 @@
         android:text="@string/results_label"
         android:labelFor="@+id/results_view"
         app:layout_constraintStart_toStartOf="@+id/name_view"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/hp_check_box"
         />
 
@@ -83,10 +83,10 @@
         android:id="@+id/results_view"
         android:layout_width="347dp"
         android:layout_height="171dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/results_label"
+        app:layout_constraintTop_toBottomOf="@+id/estimated_level"
         app:layout_constraintStart_toStartOf="@+id/name_view"
-        />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="0dp"/>
 
     <EditText
         android:id="@+id/cp_view"
@@ -109,18 +109,17 @@
         android:hint="@string/hp_check_box"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/cp_view"
-        app:layout_constraintTop_toTopOf="@+id/cp_view"
-        />
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/hp_label"/>
 
     <CheckBox
         android:id="@+id/power_up_check_box"
         android:layout_width="131dp"
         android:layout_height="37dp"
-        android:layout_marginStart="48dp"
         android:text="@string/power_up"
-        app:layout_constraintStart_toEndOf="@+id/hp_view"
         app:layout_constraintTop_toTopOf="@+id/hp_view"
-        />
+        app:layout_constraintEnd_toEndOf="@+id/dust_view"
+        android:layout_marginEnd="0dp"/>
 
     <TextView
         android:id="@+id/name_label"
@@ -140,7 +139,8 @@
         android:labelFor="@+id/dust_view"
         android:text="@string/dust_label"
         app:layout_constraintStart_toStartOf="@+id/dust_view"
-        app:layout_constraintTop_toTopOf="@+id/name_label"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"/>
 
     <TextView
         android:id="@+id/cp_label"
@@ -170,5 +170,59 @@
         app:layout_constraintTop_toBottomOf="@+id/cp_view"
         app:layout_constraintStart_toStartOf="@+id/cp_view"
         />
+
+    <TextView
+        android:id="@+id/estimated_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Level"
+        app:layout_constraintStart_toStartOf="@+id/results_label"
+        app:layout_constraintTop_toBottomOf="@+id/results_label"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"/>
+
+    <TextView
+        android:id="@+id/estimated_attack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Attack"
+        app:layout_constraintEnd_toStartOf="@+id/estimated_defense"
+        app:layout_constraintStart_toEndOf="@+id/estimated_level"
+        app:layout_constraintTop_toTopOf="@+id/estimated_level"/>
+
+    <TextView
+        android:id="@+id/estimated_defense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Defense"
+        app:layout_constraintEnd_toStartOf="@+id/estimated_stamina"
+        app:layout_constraintStart_toEndOf="@+id/estimated_attack"
+        app:layout_constraintTop_toTopOf="@+id/estimated_attack"/>
+
+    <TextView
+        android:id="@+id/estimated_stamina"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Stamina"
+        app:layout_constraintEnd_toStartOf="@+id/estimated_percentage"
+        app:layout_constraintStart_toEndOf="@+id/estimated_defense"
+        app:layout_constraintTop_toTopOf="@+id/estimated_defense"/>
+
+    <TextView
+        android:id="@+id/estimated_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Percentage"
+        app:layout_constraintStart_toEndOf="@+id/estimated_stamina"
+        app:layout_constraintTop_toTopOf="@+id/estimated_stamina"
+        app:layout_constraintEnd_toEndOf="@+id/results_view"
+        android:layout_marginEnd="8dp"/>
 
 </android.support.constraint.ConstraintLayout>

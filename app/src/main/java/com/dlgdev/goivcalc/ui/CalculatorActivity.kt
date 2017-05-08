@@ -1,6 +1,7 @@
 package com.dlgdev.goivcalc.ui
 
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -16,6 +17,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
     @Inject lateinit var calc: Calculator
     @Inject lateinit var nameAdapter: PokemonNameAdapter
     @Inject lateinit var resultsAdapter: CalcResultsAdapter
+    @Inject lateinit var recyclerLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,13 @@ class CalculatorActivity : DaggerAppCompatActivity() {
         setupAtkCheckBox()
         setupDefCheckBox()
         setupLeaderSayingView()
+
+        setupResultsView()
+    }
+
+    private fun setupResultsView() {
+        results_view.adapter = resultsAdapter
+        results_view.layoutManager = recyclerLayoutManager
     }
 
     private fun setupNameView() {

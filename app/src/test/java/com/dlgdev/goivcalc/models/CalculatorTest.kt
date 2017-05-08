@@ -33,11 +33,12 @@ class CalculatorTest {
         assertThat(result, hasExactStats(30, 8, 15, 15))
     }
 
-    private fun hasExactStats(level: Int, hp: Int, atk: Int, def: Int): Matcher<List<CalcResults>>? {
+    private fun hasExactStats(level: Int, hp: Int, atk: Int, def: Int, usedPowerUp: Boolean = false): Matcher<List<CalcResults>>? {
         return object : TypeSafeMatcher<List<CalcResults>>() {
             override fun matchesSafely(item: List<CalcResults>): Boolean {
                 return item.size == 1 && item[0].level == level && item[0].stamina == hp
                         && item[0].attack == atk && item[0].defense == def
+                        && item[0].usedPowerUp == usedPowerUp
             }
 
             override fun describeTo(description: Description) {
@@ -63,6 +64,23 @@ class CalculatorTest {
         calc.pokemon = alakazam
         val result = calc.calculate()
         assertThat(result, hasExactStats(30, 14, 14, 12))
+    }
+
+    /**
+     * Alakazam: ID: 65, CP: 2438, HP: 90, Dust 5000,
+     *          Atk: 14, Def 12:, Stamina: 14
+     */
+    @Test fun boostedAlakazamIsRight() {
+        calc.atkIsMax = true
+        calc.hpIsMax = true
+        calc.usedPowerUp = true
+        calc.dust = 5000
+        calc.cp = 2458
+        calc.hp = 91
+        calc.maxValue = VERY_GOOD
+        calc.pokemon = alakazam
+        val result = calc.calculate()
+        assertThat(result, hasExactStats(30, 14, 14, 12, true))
     }
 
     /**
@@ -127,5 +145,13 @@ class CalculatorTest {
                         .appendText(" and def ").appendValue(def)
             }
         }
+    }
+
+    @Test fun forFunsies() {
+        calc.pokemon = alakazam
+        calc.usedPowerUp = true
+        println("Boosted Alakazam (2458, 91):")
+        println(calc.calcCp(30, 14, 14, 12))
+        println(calc.calcHp(30, 14))
     }
 }
