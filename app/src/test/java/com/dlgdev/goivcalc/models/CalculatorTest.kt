@@ -1,5 +1,7 @@
 package com.dlgdev.goivcalc.models
 
+import com.dlgdev.goivcalc.models.Calculator.LeaderSayings.PERFECT
+import com.dlgdev.goivcalc.models.Calculator.LeaderSayings.VERY_GOOD
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -9,33 +11,31 @@ import org.junit.Test
 class CalculatorTest {
     val calc = Calculator()
 
-    val gyarados = Pokemon(0, 0, 0, 0)
-    val alakazam = Pokemon(0, 0, 0, 0)
-    val exeggutor = Pokemon(0, 0, 0, 0)
-    val vaporeon = Pokemon(0, 0, 0, 0)
+    val gyarados = Pokemon(130, 190, 237, 197)
+    val alakazam = Pokemon(65, 110, 271, 194)
+    val exeggutor = Pokemon(103, 190, 233, 158)
+    val vaporeon = Pokemon(134, 260, 205, 177)
+    val exeggcute = Pokemon(102, 120, 107, 140)
 
     /**
-     * Examples:
-     * Gyarados: CP: 2764, HP: 144, Dust 5000,
+     * Gyarados: ID: 130, CP: 2764, HP: 144, Dust 5000,
      *          Atk: 15, Def: 15, Stamina: 8
-     * Alakazam: CP: 2438, HP: 90, Dust 5000,
-     *          Atk: 14, Def 12:, Stamina: 14
-     * Exeggutor: CP: 2471, HP: 149, Dust 5000,
-     *          Atk:, Def:, Stamina:
-     * Vaporeon: CP: 2579, HP:197, Dust 5000,
-     *          Atk: 14, Def: 12, Stamina: 14
      */
-
     @Test fun GyaradosIsRight() {
+        calc.atkIsMax = true
+        calc.defIsMax = true
+        calc.dust = 5000
+        calc.cp = 2764
+        calc.hp = 144
+        calc.maxValue = PERFECT
         calc.pokemon = gyarados
         val result = calc.calculate()
-        assertThat(result, hasStats(30, 8, 15, 15))
+        assertThat(result, hasExactStats(30, 8, 15, 15))
     }
 
-    private fun hasStats(level: Int, hp: Int, atk: Int, def: Int): Matcher<List<CalcResults>>? {
+    private fun hasExactStats(level: Int, hp: Int, atk: Int, def: Int): Matcher<List<CalcResults>>? {
         return object : TypeSafeMatcher<List<CalcResults>>() {
-            override fun matchesSafely(item: List<CalcResults>?): Boolean {
-                if (item == null) return false
+            override fun matchesSafely(item: List<CalcResults>): Boolean {
                 return item.size == 1 && item[0].level == level && item[0].stamina == hp
                         && item[0].attack == atk && item[0].defense == def
             }
@@ -49,22 +49,83 @@ class CalculatorTest {
         }
     }
 
+    /**
+     * Alakazam: ID: 65, CP: 2438, HP: 90, Dust 5000,
+     *          Atk: 14, Def 12:, Stamina: 14
+     */
     @Test fun AlakazamIsRight() {
+        calc.atkIsMax = true
+        calc.hpIsMax = true
+        calc.dust = 5000
+        calc.cp = 2438
+        calc.hp = 90
+        calc.maxValue = VERY_GOOD
         calc.pokemon = alakazam
         val result = calc.calculate()
-        assertThat(result, hasStats(30, 14, 14, 12))
+        assertThat(result, hasExactStats(30, 14, 14, 12))
     }
 
+    /**
+     * Exeggutor: ID: 103, CP: 2471, HP: 149, Dust 5000,
+     *          Atk: 15, Def: 11, Stamina: 15
+     */
     @Test fun ExeggutorIsRight() {
+        calc.atkIsMax = true
+        calc.hpIsMax = true
+        calc.dust = 5000
+        calc.cp = 2471
+        calc.hp = 149
+        calc.maxValue = PERFECT
         calc.pokemon = exeggutor
         val result = calc.calculate()
-        assertThat(result, hasStats(30, 15, 15, 11))
+        assertThat(result, hasExactStats(30, 15, 15, 11))
     }
 
+    /**
+     * Vaporeon: ID: 134, CP: 2579, HP:197, Dust 5000,
+     *          Atk: 14, Def: 12, Stamina: 14
+     */
     @Test fun VaporeonIsRight() {
+        calc.atkIsMax = true
+        calc.hpIsMax = true
+        calc.dust = 5000 // But lvl 29!!
+        calc.cp = 2579
+        calc.hp = 197
+        calc.maxValue = VERY_GOOD
         calc.pokemon = vaporeon
         val result = calc.calculate()
-        assertThat(result, hasStats(29, 14, 14, 12))
+        assertThat(result, hasExactStats(29, 14, 14, 12))
     }
 
+    /**
+     * Exeggcute: ID: 102, CP: 706, HP: 86, Dust 3500,
+     *          Atk: 9, Def: 13, Stamina: 12
+     */
+    @Test fun ExeggcuteIsRight() {
+        calc.defIsMax = true
+        calc.dust = 3500
+        calc.cp = 706
+        calc.hp = 86
+        calc.maxValue = VERY_GOOD
+        calc.pokemon = exeggcute
+        val result = calc.calculate()
+        assertThat(result, hasStats(24, 12, 9, 13))
+    }
+
+    private fun hasStats(level: Int, hp: Int, atk: Int, def: Int): Matcher<in List<CalcResults>>? {
+        return object : TypeSafeMatcher<List<CalcResults>>() {
+            override fun matchesSafely(item: List<CalcResults>): Boolean {
+                return item.filter {
+                    it.level == level && it.stamina == hp && it.attack == atk && it.defense == def
+                }.isNotEmpty()
+            }
+
+            override fun describeTo(description: Description) {
+                description.appendText("Expected pokemon with level ").appendValue(level)
+                        .appendText(", hp ").appendValue(hp)
+                        .appendText(", atk ").appendValue(atk)
+                        .appendText(" and def ").appendValue(def)
+            }
+        }
+    }
 }
