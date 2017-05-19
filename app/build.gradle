@@ -27,6 +27,9 @@ dependencies {
     kapt compilerDeps.dagger_processor
     kapt compilerDeps.dagger_compiler
     kapt compilerDeps.butterknife_compiler
+    kapt compilerDeps.lifecycle_compiler
+    kapt compilerDeps.room_compiler
+
     compile runtime.butterknife
     compile runtime.dagger
     compile runtime.appcompat
@@ -34,6 +37,9 @@ dependencies {
     compile runtime.kotlin_stdlib
     compile runtime.recycler_view
     compile runtime.gson
+    compile runtime.lifecycle
+    compile runtime.lifecycle_extensions
+    compile runtime.room
 
     testCompile testDeps.junit
     testCompile testDeps.mockito_core

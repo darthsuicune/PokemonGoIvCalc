@@ -1,16 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = '1.1.2-3'
-    ext.gradle_plugin_version = "2.4.0-alpha7"
+    ext.gradle_plugin_version = "3.0.0-alpha1"
     repositories {
-        //Workaround for gradle plugin not being available
-        maven {
-            url "$System.env.HOME/android-studio/gradle/m2repository"
-        }
+        maven { url 'https://maven.google.com' }
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.4.0-alpha7'
+        classpath 'com.android.tools.build:gradle:3.0.0-alpha1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -19,10 +16,15 @@ ext {
     //Compiler/Annotation Processor
     def butterknife_version = "8.5.1"
     def dagger_version = "2.11-rc2"
+    def architecture_version = "1.0.0-alpha1"
     compilerDeps = [
             butterknife_compiler: "com.jakewharton:butterknife-compiler:${butterknife_version}",
             dagger_processor    : "com.google.dagger:dagger-android-processor:${dagger_version}",
-            dagger_compiler     : "com.google.dagger:dagger-compiler:${dagger_version}"
+            dagger_compiler     : "com.google.dagger:dagger-compiler:${dagger_version}",
+            
+            lifecycle_compiler: "android.arch.lifecycle:compiler:${architecture_version}",
+            room_compiler: "android.arch.persistence.room:compiler:${architecture_version}"
+
     ]
 
     //Runtime
@@ -36,7 +38,11 @@ ext {
             appcompat        : "com.android.support:appcompat-v7:${support_library_version}",
             constraint_layout: "com.android.support.constraint:constraint-layout:${constraint_layout_version}",
             kotlin_stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
-            recycler_view    : "com.android.support:recyclerview-v7:${support_library_version}"
+            recycler_view    : "com.android.support:recyclerview-v7:${support_library_version}",
+
+            lifecycle: "android.arch.lifecycle:runtime:${architecture_version}",
+            lifecycle_extensions: "android.arch.lifecycle:extensions:${architecture_version}",
+            room: "android.arch.persistence.room:runtime:${architecture_version}"
     ]
 
     //Test
@@ -55,6 +61,7 @@ ext {
 allprojects {
     repositories {
         jcenter()
+        maven { url 'https://maven.google.com' }
     }
 }
 
