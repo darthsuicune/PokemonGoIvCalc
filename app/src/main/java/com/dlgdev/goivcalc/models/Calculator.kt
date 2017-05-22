@@ -3,6 +3,36 @@ package com.dlgdev.goivcalc.models
 import javax.inject.Inject
 
 class Calculator @Inject constructor() {
+    private val cp_multiplier = arrayOf(0.094, 0.16639787, 0.21573247, 0.25572005, 0.29024988,
+            0.3210876, 0.34921268, 0.37523559, 0.39956728, 0.42250001,
+            0.44310755, 0.46279839, 0.48168495, 0.49985844, 0.51739395,
+            0.53435433, 0.55079269, 0.56675452, 0.58227891, 0.59740001,
+            0.61215729, 0.62656713, 0.64065295, 0.65443563, 0.667934,
+            0.68116492, 0.69414365, 0.70688421, 0.71939909, 0.7317,
+            0.73776948, 0.74378943, 0.74976104, 0.75568551, 0.76156384,
+            0.76739717, 0.7731865, 0.77893275, 0.78463697, 0.79030001)
+    private val dustToLevel = mapOf(
+            Pair(200, 1..2),
+            Pair(400, 3..4),
+            Pair(600, 5..6),
+            Pair(800, 7..8),
+            Pair(1000, 9..10),
+            Pair(1300, 11..12),
+            Pair(1600, 13..14),
+            Pair(1900, 15..16),
+            Pair(2200, 17..18),
+            Pair(2500, 19..20),
+            Pair(3000, 21..22),
+            Pair(3500, 23..24),
+            Pair(4000, 25..26),
+            Pair(4500, 27..28),
+            Pair(5000, 29..30),
+            Pair(6000, 31..32),
+            Pair(7000, 33..34),
+            Pair(8000, 35..36),
+            Pair(9000, 37..38),
+            Pair(10000, 39..40)
+    )
     var pokemon = Pokemon(0, 999, 999, 999)
     var usedPowerUp = false
     var hpIsMax = false
@@ -28,7 +58,7 @@ class Calculator @Inject constructor() {
             minDef = maxValue.min
         }
 
-        for (level in dustLevelRange()) {
+        for (level in dustToLevel[dust]!!) {
             for (hp in minHp..maxValue.max) {
                 for (atk in minAtk..maxValue.max) {
                     (minDef..maxValue.max)
@@ -40,32 +70,6 @@ class Calculator @Inject constructor() {
             }
         }
         return results
-    }
-
-    private fun dustLevelRange(): IntProgression {
-        when (dust) {
-            200 -> return 1..2
-            400 -> return 3..4
-            600 -> return 5..6
-            800 -> return 7..8
-            1000 -> return 9..10
-            1300 -> return 11..12
-            1600 -> return 13..14
-            1900 -> return 15..16
-            2200 -> return 17..18
-            2500 -> return 19..20
-            3000 -> return 21..22
-            3500 -> return 23..24
-            4000 -> return 25..26
-            4500 -> return 27..28
-            5000 -> return 29..30
-            6000 -> return 31..32
-            7000 -> return 33..34
-            8000 -> return 35..36
-            9000 -> return 37..38
-            10000 -> return 39..40
-            else -> return 1..40
-        }
     }
 
     /**
@@ -95,14 +99,6 @@ class Calculator @Inject constructor() {
      * https://www.reddit.com/r/pokemongodev/comments/4t7xb4/exact_cp_formula_from_stats_and_cpm_and_an_update/
      */
     private fun cpMultiplier(level: Int): Double {
-        val cp_multiplier = arrayOf(0.094, 0.16639787, 0.21573247, 0.25572005, 0.29024988,
-                0.3210876, 0.34921268, 0.37523559, 0.39956728, 0.42250001,
-                0.44310755, 0.46279839, 0.48168495, 0.49985844, 0.51739395,
-                0.53435433, 0.55079269, 0.56675452, 0.58227891, 0.59740001,
-                0.61215729, 0.62656713, 0.64065295, 0.65443563, 0.667934,
-                0.68116492, 0.69414365, 0.70688421, 0.71939909, 0.7317,
-                0.73776948, 0.74378943, 0.74976104, 0.75568551, 0.76156384,
-                0.76739717, 0.7731865, 0.77893275, 0.78463697, 0.79030001)
         if (usedPowerUp) {
             val scalar = cp_multiplier[level - 1]
             return Math.sqrt(Math.pow(scalar, 2.0) + acpm(level))
