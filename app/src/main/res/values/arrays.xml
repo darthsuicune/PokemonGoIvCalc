@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="iv_leader_sayings">
+        <item>@string/leader_eval</item>
         <item>"0-7"</item>
         <item>"8-12"</item>
         <item>"13-14"</item>
         <item>"15"</item>
     </array>
+    <string name="leader_eval">"Highest value"</string>
     <array name="dust">
         <item>"200"</item>
         <item>"400"</item>

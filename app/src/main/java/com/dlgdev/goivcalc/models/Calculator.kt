@@ -33,7 +33,6 @@ class Calculator @Inject constructor() {
             Pair(9000, 37..38),
             Pair(10000, 39..40)
     )
-    var pokemon = Pokemon(0, 999, 999, 999)
     var usedPowerUp = false
     var hpIsMax = false
     var atkIsMax = false
@@ -43,7 +42,7 @@ class Calculator @Inject constructor() {
     var hp = 10
     var maxValue = LeaderSayings.AVERAGE
 
-    fun calculate(): List<CalcResults> {
+    fun calculate(pokemon: Pokemon): List<CalcResults> {
         val results = mutableListOf<CalcResults>()
         var minHp = 0
         var minAtk = 0
@@ -62,8 +61,8 @@ class Calculator @Inject constructor() {
             for (hp in minHp..maxValue.max) {
                 for (atk in minAtk..maxValue.max) {
                     (minDef..maxValue.max)
-                            .filter { calcCp(level, hp, atk, it) == this.cp }
-                            .filter { calcHp(level, hp) == this.hp }
+                            .filter { calcCp(pokemon, level, hp, atk, it) == this.cp }
+                            .filter { calcHp(pokemon, level, hp) == this.hp }
                             .mapTo(results) { CalcResults(level, hp, atk, it, usedPowerUp) }
 
                 }
@@ -77,7 +76,7 @@ class Calculator @Inject constructor() {
      * Poke Assistant:
      * CP = (Base atk + Atk IV) * (Base def + def iv)^0.5 * (Base stam + StamIV)^0.5 * Lvl(CPMultiplier)^2 / 10
      */
-    fun calcCp(level: Int, hp: Int, atk: Int, def: Int): Int {
+    fun calcCp(pokemon: Pokemon, level: Int, hp: Int, atk: Int, def: Int): Int {
         val stamina = (pokemon.stamina + hp) * cpMultiplier(level)
         val attack = (pokemon.attack + atk) * cpMultiplier(level)
         val defense = (pokemon.defense + def) * cpMultiplier(level)
@@ -88,7 +87,7 @@ class Calculator @Inject constructor() {
     /**
      * HP = (Base Stam + Stam IV) * Lvl(CPMultiplier)
      */
-    fun calcHp(level: Int, hp: Int): Int {
+    fun calcHp(pokemon: Pokemon, level: Int, hp: Int): Int {
         val result = (pokemon.stamina + hp) * cpMultiplier(level)
         return Math.max(10, Math.floor(result).toInt())
     }
@@ -117,15 +116,16 @@ class Calculator @Inject constructor() {
     }
 
     enum class LeaderSayings(val min: Int, val max: Int) {
-        AVERAGE(0, 7), GOOD(8, 12), VERY_GOOD(13, 14), PERFECT(15, 15);
+        AVERAGE(0, 7), GOOD(8, 12), VERY_GOOD(13, 14), PERFECT(15, 15), UNKNOWN(0, 15);
 
         companion object {
             fun fromSpinner(position: Int): LeaderSayings {
                 when (position) {
-                    0 -> return AVERAGE
-                    1 -> return GOOD
-                    2 -> return VERY_GOOD
-                    else -> return PERFECT
+                    1 -> return AVERAGE
+                    2 -> return GOOD
+                    3 -> return VERY_GOOD
+                    4 -> return PERFECT
+                    else -> return UNKNOWN
                 }
             }
         }

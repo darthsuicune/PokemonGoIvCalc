@@ -14,7 +14,7 @@ class MonsModule(val context: Context) {
     val names = context.resources.getStringArray(R.array.mon_names)
 
     @Provides fun provideMons(): List<Pokemon> {
-        val monStats = Gson().fromJson<PokemonStats>(InputStreamReader(context.assets.open("mons")),
+        val monStats = Gson().fromJson<PokemonStats>(InputStreamReader(context.assets.open("mon_stats")),
                 PokemonStats::class.java)
         monStats.mons.forEach { it.name = names[it.id] }
         return monStats.mons

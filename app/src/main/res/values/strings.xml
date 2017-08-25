@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GoIvCalc</string>
-    <string name="results_label">Results</string>
+    <string name="results_label">Posssible Results</string>
     <string name="def_check_box">Def</string>
     <string name="att_check_box">Atk</string>
     <string name="hp_check_box">HP</string>
@@ -10,4 +10,10 @@
     <string name="leader_saying">Leader saying</string>
     <string name="power_up">Used power up</string>
     <string name="error_number_not_valid">Invalid, write the value of your pokemon, only the number.</string>
+    <string name="level_label">Level</string>
+    <string name="attack_label">Attack</string>
+    <string name="defense_label">Defense</string>
+    <string name="stamina_label">Stamina</string>
+    <string name="percentage_label">Percentage</string>
+    <string name="base_stats_label">Base stats</string>
 </resources>
