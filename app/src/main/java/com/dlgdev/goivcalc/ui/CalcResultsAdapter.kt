@@ -10,12 +10,12 @@ import javax.inject.Inject
 open class CalcResultsAdapter @Inject constructor() : RecyclerView.Adapter<CalcResultsViewHolder>() {
     var results = emptyList<CalcResults>()
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CalcResultsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalcResultsViewHolder {
         val v = LayoutInflater.from(parent!!.context).inflate(R.layout.calc_results_view_holder, parent, false)
         return CalcResultsViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: CalcResultsViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: CalcResultsViewHolder, position: Int) {
         holder!!.results = results[position]
     }
 

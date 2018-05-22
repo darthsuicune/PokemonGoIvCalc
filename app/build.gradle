@@ -4,13 +4,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.dlgdev.goivcalc"
         minSdkVersion 17
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -30,22 +30,22 @@ dependencies {
     kapt compilerDeps.lifecycle_compiler
     kapt compilerDeps.room_compiler
 
-    compile runtime.butterknife
-    compile runtime.dagger
-    compile runtime.appcompat
-    compile runtime.constraint_layout
-    compile runtime.kotlin_stdlib
-    compile runtime.recycler_view
-    compile runtime.gson
-    compile runtime.lifecycle
-    compile runtime.lifecycle_extensions
-    compile runtime.room
+    implementation runtime.butterknife
+    implementation runtime.dagger
+    implementation runtime.appcompat
+    implementation runtime.constraint_layout
+    implementation runtime.kotlin_stdlib
+    implementation runtime.recycler_view
+    implementation runtime.gson
+    implementation runtime.lifecycle
+    implementation runtime.lifecycle_extensions
+    implementation runtime.room
 
-    testCompile testDeps.junit
-    testCompile testDeps.mockito_core
+    testImplementation testDeps.junit
+    testImplementation testDeps.mockito_core
 
-    androidTestCompile(testDeps.mockito)
-    androidTestCompile(testDeps.espresso_core, {
+    androidTestImplementation(testDeps.mockito)
+    androidTestImplementation(testDeps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     })

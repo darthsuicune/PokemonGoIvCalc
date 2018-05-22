@@ -1,4 +1,4 @@
-package com.dlgdev.goivcalc.dagger
+package com.dlgdev.dagger
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
@@ -14,9 +14,13 @@ abstract class CalculatorActivityModule {
     abstract fun contributeInjector(): CalculatorActivity
 }
 
-@Module
+@Module(includes = [(MonsModule::class)])
 class CalculatorActivitySubModule {
     @Provides fun provideResultsLayoutManager(context: Context): RecyclerView.LayoutManager {
         return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
+
+    @Provides fun provideContext(activity: CalculatorActivity): Context {
+        return activity
     }
 }
