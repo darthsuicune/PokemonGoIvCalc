@@ -7,22 +7,26 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import com.dlgdev.goivcalc.R
-import com.dlgdev.goivcalc.models.Calculator
+import com.dlgdev.goivcalc.models.CalcResults
 import com.dlgdev.goivcalc.models.Pokemon
+import com.dlgdev.goivcalc.models.PokemonIvCalculator
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_calculator.*
 import javax.inject.Inject
 
 class CalculatorActivity : DaggerAppCompatActivity() {
-    @Inject lateinit var calc: Calculator
+    @Inject lateinit var calc: PokemonIvCalculator
     @Inject lateinit var nameAdapter: PokemonNameAdapter
     @Inject lateinit var resultsAdapter: CalcResultsAdapter
     @Inject lateinit var recyclerLayoutManager: RecyclerView.LayoutManager
 
     //For dust
-    private val DUST_SELECTION = "dust_selection"
-    var dust_selection = 9 //Default to 2500 dust
-    var pokemon: Pokemon? = null
+    companion object {
+        const val DUST_SELECTION = "dust_selection"
+    }
+
+    var dustSelection = 9 //Default to 2500 dust
+    var pokemon = Pokemon(0, 0, 0, 0)
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -31,7 +35,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
 
     fun restoreState(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
-            dust_selection = savedInstanceState[DUST_SELECTION] as Int
+            dustSelection = savedInstanceState[DUST_SELECTION] as Int
         }
     }
 
@@ -64,19 +68,21 @@ class CalculatorActivity : DaggerAppCompatActivity() {
     private fun setupNameView() {
         name_view.setAdapter(nameAdapter)
         name_view.onItemClickListener = AdapterView.OnItemClickListener {
+
             adapter, _, position, _ ->
             pokemon = adapter.getItemAtPosition(position) as Pokemon
-            runCalculation()
-            base_stats.text = "${pokemon!!.attack}/${pokemon!!.defense}/${pokemon!!.stamina}"
+            resultsAdapter.showResults(runCalculation())
+            base_stats.text = "${pokemon.attack}/${pokemon.defense}/${pokemon.stamina}"
         }
     }
 
     fun setupDustView() {
-        dust_view.setSelection(dust_selection)
+        dust_view.setSelection(dustSelection)
         dust_view.onItemSelectedListener = object : NoOpItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int,
+                                        id: Long) {
                 calc.dust = Integer.parseInt(parent?.getItemAtPosition(position) as String)
-                runCalculation()
+                resultsAdapter.showResults(runCalculation())
             }
         }
     }
@@ -88,7 +94,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
                     val hp = Integer.parseInt(s.toString())
                     if (hp in 1..999) {
                         calc.hp = hp
-                        runCalculation()
+                        resultsAdapter.showResults(runCalculation())
                     }
                 } catch (nfe: NumberFormatException) {
                     hp_view.error = getString(R.string.error_number_not_valid)
@@ -104,7 +110,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
                     val cp = Integer.parseInt(s.toString())
                     if (cp in 1..9999) {
                         calc.cp = cp
-                        runCalculation()
+                        resultsAdapter.showResults(runCalculation())
                     }
                 } catch (nfe: NumberFormatException) {
                     cp_view.error = getString(R.string.error_number_not_valid)
@@ -116,48 +122,47 @@ class CalculatorActivity : DaggerAppCompatActivity() {
     private fun setupUsedPowerUp() {
         power_up_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.usedPowerUp = isChecked
-            runCalculation()
+            resultsAdapter.showResults(runCalculation())
         }
     }
 
     private fun setupHpCheckBox() {
         hp_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.hpIsMax = isChecked
-            runCalculation()
+            resultsAdapter.showResults(runCalculation())
         }
     }
 
     private fun setupAtkCheckBox() {
         atk_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.atkIsMax = isChecked
-            runCalculation()
+            resultsAdapter.showResults(runCalculation())
         }
     }
 
     private fun setupDefCheckBox() {
         def_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.defIsMax = isChecked
-            runCalculation()
+            resultsAdapter.showResults(runCalculation())
         }
     }
 
     fun setupLeaderSayingView() {
         iv_leader_saying.onItemSelectedListener = object : NoOpItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                calc.maxValue = Calculator.LeaderSayings.fromSpinner(position)
-                runCalculation()
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int,
+                                        id: Long) {
+                calc.maxValue = PokemonIvCalculator.LeaderSayings.fromSpinner(position)
+                resultsAdapter.showResults(runCalculation())
             }
         }
     }
 
-    private fun runCalculation() {
-        if (pokemon != null) {
-            resultsAdapter.showResults(calc.calculate(pokemon!!))
+    private fun runCalculation(): List<CalcResults> {
+        if (name_view.text.isNotEmpty()) {
+            return calc.calculate(pokemon)
         }
+        return emptyList()
     }
-
-
-
 
     interface NoOpItemSelectedListener : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) { //NOOP

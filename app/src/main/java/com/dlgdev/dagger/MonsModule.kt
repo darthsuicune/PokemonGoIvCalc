@@ -1,4 +1,4 @@
-package com.dlgdev.goivcalc.dagger
+package com.dlgdev.dagger
 
 import android.content.Context
 import com.dlgdev.goivcalc.R
@@ -10,17 +10,13 @@ import dagger.Provides
 import java.io.InputStreamReader
 
 @Module
-class MonsModule(val context: Context) {
-    val names = context.resources.getStringArray(R.array.mon_names)
+class MonsModule {
 
-    @Provides fun provideMons(): List<Pokemon> {
+    @Provides fun provideMons(context: Context): List<Pokemon> {
+        val names = context.resources.getStringArray(R.array.mon_names)
         val monStats = Gson().fromJson<PokemonStats>(InputStreamReader(context.assets.open("mon_stats")),
                 PokemonStats::class.java)
         monStats.mons.forEach { it.name = names[it.id] }
         return monStats.mons
-    }
-
-    @Provides fun provideContext(): Context {
-        return context
     }
 }
