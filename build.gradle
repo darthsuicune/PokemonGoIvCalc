@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-beta3'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -16,14 +16,14 @@ ext {
     //Compiler/Annotation Processor
     def butterknife_version = "8.8.1"
     def dagger_version = "2.16"
-    def architecture_version = "1.1.1"
+    def lifecycle_version = "1.1.1"
     def room_version = "1.1.0"
     compilerDeps = [
             butterknife_compiler: "com.jakewharton:butterknife-compiler:${butterknife_version}",
             dagger_processor    : "com.google.dagger:dagger-android-processor:${dagger_version}",
             dagger_compiler     : "com.google.dagger:dagger-compiler:${dagger_version}",
             
-            lifecycle_compiler: "android.arch.lifecycle:compiler:${architecture_version}",
+            lifecycle_compiler: "android.arch.lifecycle:compiler:${lifecycle_version}",
             room_compiler: "android.arch.persistence.room:compiler:${room_version}"
 
     ]
@@ -38,7 +38,7 @@ ext {
             dagger              : "com.google.dagger:dagger-android-support:${dagger_version}",
             appcompat           : "com.android.support:appcompat-v7:${support_library_version}",
             constraint_layout   : "com.android.support.constraint:constraint-layout:${constraint_layout_version}",
-            kotlin_stdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            kotlin_stdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             recycler_view       : "com.android.support:recyclerview-v7:${support_library_version}",
 
             lifecycle           : "android.arch.lifecycle:runtime:${lifecycle_version}",
