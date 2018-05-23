@@ -11,7 +11,7 @@ class Calculator @Inject constructor() {
             0.68116492, 0.69414365, 0.70688421, 0.71939909, 0.7317,
             0.73776948, 0.74378943, 0.74976104, 0.75568551, 0.76156384,
             0.76739717, 0.7731865, 0.77893275, 0.78463697, 0.79030001)
-    private val dustToLevel = mapOf(
+    val dustToLevel = mapOf(
             Pair(200, 1..2),
             Pair(400, 3..4),
             Pair(600, 5..6),
@@ -40,9 +40,10 @@ class Calculator @Inject constructor() {
     var dust = 0
     var cp = 10
     var hp = 10
-    var maxValue = LeaderSayings.AVERAGE
+    var unknownHp = false
+    var maxValue = LeaderSayings.UNKNOWN
 
-    fun calculate(pokemon: Pokemon): List<CalcResults> {
+    fun calculate(pokemon: Pokemon, level: Int): List<CalcResults> {
         val results = mutableListOf<CalcResults>()
         var minHp = 0
         var minAtk = 0
@@ -57,16 +58,28 @@ class Calculator @Inject constructor() {
             minDef = maxValue.min
         }
 
-        for (level in dustToLevel[dust]!!) {
-            for (hp in minHp..maxValue.max) {
-                for (atk in minAtk..maxValue.max) {
+        for (hp in minHp..maxValue.max) {
+            for (atk in minAtk..maxValue.max) {
+                if (unknownHp) {
+                    (minDef..maxValue.max)
+                            .filter { calcCp(pokemon, level, hp, atk, it) == this.cp }
+                            .mapTo(results) { CalcResults(level, hp, atk, it, usedPowerUp) }
+                } else {
                     (minDef..maxValue.max)
                             .filter { calcCp(pokemon, level, hp, atk, it) == this.cp }
                             .filter { calcHp(pokemon, level, hp) == this.hp }
                             .mapTo(results) { CalcResults(level, hp, atk, it, usedPowerUp) }
-
                 }
+
             }
+        }
+        return results
+    }
+
+    fun calculate(pokemon: Pokemon): List<CalcResults> {
+        val results = mutableListOf<CalcResults>()
+        for (level in dustToLevel[dust]!!) {
+            results.addAll(calculate(pokemon, level))
         }
         return results
     }

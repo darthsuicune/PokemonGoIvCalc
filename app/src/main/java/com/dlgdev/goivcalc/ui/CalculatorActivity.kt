@@ -22,7 +22,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
     //For dust
     private val DUST_SELECTION = "dust_selection"
     var dust_selection = 9 //Default to 2500 dust
-    lateinit var pokemon: Pokemon
+    var pokemon: Pokemon? = null
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -64,11 +64,10 @@ class CalculatorActivity : DaggerAppCompatActivity() {
     private fun setupNameView() {
         name_view.setAdapter(nameAdapter)
         name_view.onItemClickListener = AdapterView.OnItemClickListener {
-
             adapter, _, position, _ ->
             pokemon = adapter.getItemAtPosition(position) as Pokemon
-            resultsAdapter.showResults(runCalculation())
-            base_stats.text = "${pokemon.attack}/${pokemon.defense}/${pokemon.stamina}"
+            runCalculation()
+            base_stats.text = "${pokemon!!.attack}/${pokemon!!.defense}/${pokemon!!.stamina}"
         }
     }
 
@@ -77,7 +76,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
         dust_view.onItemSelectedListener = object : NoOpItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 calc.dust = Integer.parseInt(parent?.getItemAtPosition(position) as String)
-                resultsAdapter.showResults(runCalculation())
+                runCalculation()
             }
         }
     }
@@ -89,7 +88,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
                     val hp = Integer.parseInt(s.toString())
                     if (hp in 1..999) {
                         calc.hp = hp
-                        resultsAdapter.showResults(runCalculation())
+                        runCalculation()
                     }
                 } catch (nfe: NumberFormatException) {
                     hp_view.error = getString(R.string.error_number_not_valid)
@@ -105,7 +104,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
                     val cp = Integer.parseInt(s.toString())
                     if (cp in 1..9999) {
                         calc.cp = cp
-                        resultsAdapter.showResults(runCalculation())
+                        runCalculation()
                     }
                 } catch (nfe: NumberFormatException) {
                     cp_view.error = getString(R.string.error_number_not_valid)
@@ -117,28 +116,28 @@ class CalculatorActivity : DaggerAppCompatActivity() {
     private fun setupUsedPowerUp() {
         power_up_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.usedPowerUp = isChecked
-            resultsAdapter.showResults(runCalculation())
+            runCalculation()
         }
     }
 
     private fun setupHpCheckBox() {
         hp_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.hpIsMax = isChecked
-            resultsAdapter.showResults(runCalculation())
+            runCalculation()
         }
     }
 
     private fun setupAtkCheckBox() {
         atk_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.atkIsMax = isChecked
-            resultsAdapter.showResults(runCalculation())
+            runCalculation()
         }
     }
 
     private fun setupDefCheckBox() {
         def_check_box.setOnCheckedChangeListener { _, isChecked ->
             calc.defIsMax = isChecked
-            resultsAdapter.showResults(runCalculation())
+            runCalculation()
         }
     }
 
@@ -146,12 +145,19 @@ class CalculatorActivity : DaggerAppCompatActivity() {
         iv_leader_saying.onItemSelectedListener = object : NoOpItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 calc.maxValue = Calculator.LeaderSayings.fromSpinner(position)
-                resultsAdapter.showResults(runCalculation())
+                runCalculation()
             }
         }
     }
 
-    private fun runCalculation() = calc.calculate(pokemon)
+    private fun runCalculation() {
+        if (pokemon != null) {
+            resultsAdapter.showResults(calc.calculate(pokemon!!))
+        }
+    }
+
+
+
 
     interface NoOpItemSelectedListener : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) { //NOOP

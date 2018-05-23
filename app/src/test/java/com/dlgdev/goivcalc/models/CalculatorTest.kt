@@ -17,6 +17,7 @@ class CalculatorTest {
     val vaporeon = Pokemon(134, 260, 205, 177)
     val exeggcute = Pokemon(102, 120, 107, 140)
 
+
     /**
      * Gyarados: ID: 130, CP: 2764, HP: 144, Dust 5000,
      *          Atk: 15, Def: 15, Stamina: 8
@@ -28,8 +29,7 @@ class CalculatorTest {
         calc.cp = 2764
         calc.hp = 144
         calc.maxValue = PERFECT
-        calc.pokemon = gyarados
-        val result = calc.calculate()
+        val result = calc.calculate(gyarados)
         assertThat(result, hasExactStats(30, 8, 15, 15))
     }
 
@@ -61,8 +61,7 @@ class CalculatorTest {
         calc.cp = 2438
         calc.hp = 90
         calc.maxValue = VERY_GOOD
-        calc.pokemon = alakazam
-        val result = calc.calculate()
+        val result = calc.calculate(alakazam)
         assertThat(result, hasExactStats(30, 14, 14, 12))
     }
 
@@ -78,8 +77,7 @@ class CalculatorTest {
         calc.cp = 2458
         calc.hp = 91
         calc.maxValue = VERY_GOOD
-        calc.pokemon = alakazam
-        val result = calc.calculate()
+        val result = calc.calculate(alakazam)
         assertThat(result, hasExactStats(30, 14, 14, 12, true))
     }
 
@@ -94,8 +92,7 @@ class CalculatorTest {
         calc.cp = 2471
         calc.hp = 149
         calc.maxValue = PERFECT
-        calc.pokemon = exeggutor
-        val result = calc.calculate()
+        val result = calc.calculate(exeggutor)
         assertThat(result, hasExactStats(30, 15, 15, 11))
     }
 
@@ -110,8 +107,7 @@ class CalculatorTest {
         calc.cp = 2579
         calc.hp = 197
         calc.maxValue = VERY_GOOD
-        calc.pokemon = vaporeon
-        val result = calc.calculate()
+        val result = calc.calculate(vaporeon)
         assertThat(result, hasExactStats(29, 14, 14, 12))
     }
 
@@ -125,8 +121,7 @@ class CalculatorTest {
         calc.cp = 706
         calc.hp = 86
         calc.maxValue = VERY_GOOD
-        calc.pokemon = exeggcute
-        val result = calc.calculate()
+        val result = calc.calculate(exeggcute)
         assertThat(result, hasStats(24, 12, 9, 13))
     }
 
@@ -145,13 +140,5 @@ class CalculatorTest {
                         .appendText(" and def ").appendValue(def)
             }
         }
-    }
-
-    @Test fun forFunsies() {
-        calc.pokemon = alakazam
-        calc.usedPowerUp = true
-        println("Boosted Alakazam (2458, 91):")
-        println(calc.calcCp(30, 14, 14, 12))
-        println(calc.calcHp(30, 14))
     }
 }
