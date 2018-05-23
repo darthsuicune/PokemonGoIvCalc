@@ -2,7 +2,7 @@ package com.dlgdev.goivcalc.models
 
 import javax.inject.Inject
 
-class Calculator @Inject constructor() {
+class PokemonIvCalculator @Inject constructor() {
     private val cp_multiplier = arrayOf(0.094, 0.16639787, 0.21573247, 0.25572005, 0.29024988,
             0.3210876, 0.34921268, 0.37523559, 0.39956728, 0.42250001,
             0.44310755, 0.46279839, 0.48168495, 0.49985844, 0.51739395,
