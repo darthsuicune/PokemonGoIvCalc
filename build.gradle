@@ -22,9 +22,9 @@ ext {
             butterknife_compiler: "com.jakewharton:butterknife-compiler:${butterknife_version}",
             dagger_processor    : "com.google.dagger:dagger-android-processor:${dagger_version}",
             dagger_compiler     : "com.google.dagger:dagger-compiler:${dagger_version}",
-            
-            lifecycle_compiler: "android.arch.lifecycle:compiler:${lifecycle_version}",
-            room_compiler: "android.arch.persistence.room:compiler:${room_version}"
+
+            lifecycle_compiler  : "android.arch.lifecycle:compiler:${lifecycle_version}",
+            room_compiler       : "android.arch.persistence.room:compiler:${room_version}"
 
     ]
 
@@ -32,6 +32,7 @@ ext {
     def support_library_version = "27.1.0"
     def constraint_layout_version = "1.0.2"
     def gson_version = "2.8.4"
+    def retrofit_version = "2.4.0"
     runtime = [
             butterknife         : "com.jakewharton:butterknife:${butterknife_version}",
             gson                : "com.google.code.gson:gson:${gson_version}",
@@ -40,6 +41,8 @@ ext {
             constraint_layout   : "com.android.support.constraint:constraint-layout:${constraint_layout_version}",
             kotlin_stdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             recycler_view       : "com.android.support:recyclerview-v7:${support_library_version}",
+            retrofit            : "com.squareup.retrofit2:retrofit:${retrofit_version}",
+            retrofit_gson        : "com.squareup.retrofit2:converter-gson:${retrofit_version}",
 
             lifecycle           : "android.arch.lifecycle:runtime:${lifecycle_version}",
             lifecycle_extensions: "android.arch.lifecycle:extensions:${lifecycle_version}",

@@ -14,7 +14,7 @@ abstract class CalculatorActivityModule {
     abstract fun contributeInjector(): CalculatorActivity
 }
 
-@Module(includes = [(MonsModule::class)])
+@Module(includes = [(MonsModule::class),(PokemonServerModule::class)])
 class CalculatorActivitySubModule {
     @Provides fun provideResultsLayoutManager(context: Context): RecyclerView.LayoutManager {
         return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

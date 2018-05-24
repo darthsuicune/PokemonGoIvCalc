@@ -68,7 +68,6 @@ class CalculatorActivity : DaggerAppCompatActivity() {
     private fun setupNameView() {
         name_view.setAdapter(nameAdapter)
         name_view.onItemClickListener = AdapterView.OnItemClickListener {
-
             adapter, _, position, _ ->
             pokemon = adapter.getItemAtPosition(position) as Pokemon
             resultsAdapter.showResults(runCalculation())

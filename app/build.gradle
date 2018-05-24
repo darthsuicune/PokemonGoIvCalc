@@ -65,6 +65,8 @@ dependencies {
     implementation runtime.lifecycle
     implementation runtime.lifecycle_extensions
     implementation runtime.room
+    implementation runtime.retrofit
+    implementation runtime.retrofit_gson
 
     testImplementation testDeps.junit
     testImplementation testDeps.mockito_core
