@@ -3,7 +3,7 @@ package com.dlgdev.goivcalc.models
 import org.junit.Test
 
 class OtherRandomTests {
-    val calc = Calculator()
+    val calc = PokemonIvCalculator()
 
     val machop = Pokemon(66, 140, 137, 88)
     val observedCps = arrayOf(16, 34, 51)
