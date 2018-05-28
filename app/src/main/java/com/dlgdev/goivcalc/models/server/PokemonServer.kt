@@ -1,5 +1,6 @@
-package com.dlgdev.goivcalc.models
+package com.dlgdev.goivcalc.models.server
 
+import com.dlgdev.goivcalc.models.PokemonStats
 import retrofit2.Call
 import retrofit2.http.GET
 
