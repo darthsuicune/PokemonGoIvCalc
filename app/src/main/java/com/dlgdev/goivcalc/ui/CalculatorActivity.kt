@@ -150,7 +150,7 @@ class CalculatorActivity : DaggerAppCompatActivity() {
         iv_leader_saying.onItemSelectedListener = object : NoOpItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int,
                                         id: Long) {
-                calc.maxValue = PokemonIvCalculator.LeaderSayings.fromSpinner(position)
+                calc.maxRange = PokemonIvCalculator.LeaderSayings.fromSpinner(position)
                 resultsAdapter.showResults(runCalculation())
             }
         }

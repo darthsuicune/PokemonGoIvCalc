@@ -3,9 +3,10 @@ package com.dlgdev.goivcalc.models
 import org.junit.Test
 
 class OtherRandomTests {
-    val calc = Calculator()
+    val calc = PokemonIvCalculator()
+    var provider = PokemonProvider()
 
-    val machop = Pokemon(66, 140, 137, 88)
+    val machop = provider.get(66)
     val observedCps = arrayOf(16, 34, 51)
 
     @Test
@@ -47,4 +48,18 @@ class OtherRandomTests {
         }
     }
 
+    var kabuto = provider.get(140)
+
+    @Test fun kabutoThatRunAway() {
+        for (level in 25..35) {
+            println("Level: $level")
+            calc.cp = 1005
+            calc.unknownHp = true
+
+            val res = calc.calculate(kabuto, level)
+            res.forEach {
+                println("${it.attack}/${it.defense}/${it.stamina}")
+            }
+        }
+    }
 }

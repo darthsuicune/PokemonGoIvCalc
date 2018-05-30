@@ -8,6 +8,6 @@ import retrofit2.Retrofit
 class PokemonServerModule {
     @Provides
     fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder().baseUrl("localhost:8008").build()
+        return Retrofit.Builder().baseUrl("http://localhost:8008").build()
     }
 }

@@ -41,7 +41,7 @@ class PokemonIvCalculator @Inject constructor() {
     var cp = 10
     var hp = 10
     var unknownHp = false
-    var maxValue = LeaderSayings.UNKNOWN
+    var maxRange = LeaderSayings.UNKNOWN
 
     fun calculate(pokemon: Pokemon, level: Int): List<CalcResults> {
         val results = mutableListOf<CalcResults>()
@@ -49,31 +49,46 @@ class PokemonIvCalculator @Inject constructor() {
         var minAtk = 0
         var minDef = 0
         if (hpIsMax) {
-            minHp = maxValue.min
+            minHp = maxRange.min
         }
         if (atkIsMax) {
-            minAtk = maxValue.min
+            minAtk = maxRange.min
         }
         if (defIsMax) {
-            minDef = maxValue.min
+            minDef = maxRange.min
         }
 
-        for (hp in minHp..maxValue.max) {
-            for (atk in minAtk..maxValue.max) {
+        for (hp in minHp..maxRange.max) {
+            for (atk in minAtk..maxRange.max) {
                 if (unknownHp) {
-                    (minDef..maxValue.max)
+                    (minDef..maxRange.max)
                             .filter { calcCp(pokemon, level, hp, atk, it) == this.cp }
+                            .filter { maxStatsFilter(hp, atk, it) }
                             .mapTo(results) { CalcResults(level, hp, atk, it, usedPowerUp) }
                 } else {
-                    (minDef..maxValue.max)
+                    (minDef..maxRange.max)
                             .filter { calcCp(pokemon, level, hp, atk, it) == this.cp }
                             .filter { calcHp(pokemon, level, hp) == this.hp }
+                            .filter { maxStatsFilter(hp, atk, it) }
                             .mapTo(results) { CalcResults(level, hp, atk, it, usedPowerUp) }
                 }
 
             }
         }
         return results
+    }
+
+    private fun maxStatsFilter(hp: Int, atk: Int, def: Int): Boolean {
+        return when {
+            atkIsMax && defIsMax && hpIsMax -> hp == atk && atk == def
+            atkIsMax && defIsMax -> atk == def && atk > hp
+            atkIsMax && hpIsMax -> atk == hp && atk > def
+            defIsMax && hpIsMax -> def == hp && def > atk
+            atkIsMax -> atk > def && atk > hp
+            defIsMax -> def > atk && def > hp
+            hpIsMax -> hp > atk && hp > def
+            else -> true
+        }
     }
 
     fun calculate(pokemon: Pokemon): List<CalcResults> {
@@ -133,12 +148,12 @@ class PokemonIvCalculator @Inject constructor() {
 
         companion object {
             fun fromSpinner(position: Int): LeaderSayings {
-                when (position) {
-                    1 -> return AVERAGE
-                    2 -> return GOOD
-                    3 -> return VERY_GOOD
-                    4 -> return PERFECT
-                    else -> return UNKNOWN
+                return when (position) {
+                    1 -> AVERAGE
+                    2 -> GOOD
+                    3 -> VERY_GOOD
+                    4 -> PERFECT
+                    else -> UNKNOWN
                 }
             }
         }
