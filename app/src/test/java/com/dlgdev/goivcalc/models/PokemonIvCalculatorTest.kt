@@ -1,23 +1,22 @@
 package com.dlgdev.goivcalc.models
 
-import com.dlgdev.goivcalc.models.Calculator.LeaderSayings.PERFECT
-import com.dlgdev.goivcalc.models.Calculator.LeaderSayings.VERY_GOOD
+import com.dlgdev.goivcalc.models.PokemonIvCalculator.LeaderSayings.PERFECT
+import com.dlgdev.goivcalc.models.PokemonIvCalculator.LeaderSayings.VERY_GOOD
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 import org.junit.Assert.assertThat
 import org.junit.Test
 
-class CalculatorTest {
+class PokemonIvCalculatorTest {
     val calc = PokemonIvCalculator()
-    var provider = PokemonProvider()
 
-    val gyarados = provider.get(130)
-    val alakazam = provider.get(65)
-    val exeggutor = provider.get(103)
-    val vaporeon = provider.get(134)
-    val exeggcute = provider.get(102)
-
+    val prov = PokemonProvider()
+    val gyarados = prov.get(130)
+    val alakazam = prov.get(65)
+    val exeggutor = prov.get(103)
+    val vaporeon = prov.get(134)
+    val exeggcute = prov.get(102)
 
     /**
      * Gyarados: ID: 130, CP: 2764, HP: 144, Dust 5000,
@@ -29,7 +28,7 @@ class CalculatorTest {
         calc.dust = 5000
         calc.cp = 2764
         calc.hp = 144
-        calc.maxRange = PokemonIvCalculator.LeaderSayings.PERFECT
+        calc.maxValue = PERFECT
         val result = calc.calculate(gyarados)
         assertThat(result, hasExactStats(30, 8, 15, 15))
     }
@@ -61,7 +60,7 @@ class CalculatorTest {
         calc.dust = 5000
         calc.cp = 2438
         calc.hp = 90
-        calc.maxRange = PokemonIvCalculator.LeaderSayings.VERY_GOOD
+        calc.maxValue = VERY_GOOD
         val result = calc.calculate(alakazam)
         assertThat(result, hasExactStats(30, 14, 14, 12))
     }
@@ -77,7 +76,7 @@ class CalculatorTest {
         calc.dust = 5000
         calc.cp = 2458
         calc.hp = 91
-        calc.maxRange = PokemonIvCalculator.LeaderSayings.VERY_GOOD
+        calc.maxValue = VERY_GOOD
         val result = calc.calculate(alakazam)
         assertThat(result, hasExactStats(30, 14, 14, 12, true))
     }
@@ -92,7 +91,7 @@ class CalculatorTest {
         calc.dust = 5000
         calc.cp = 2471
         calc.hp = 149
-        calc.maxRange = PokemonIvCalculator.LeaderSayings.PERFECT
+        calc.maxValue = PERFECT
         val result = calc.calculate(exeggutor)
         assertThat(result, hasExactStats(30, 15, 15, 11))
     }
@@ -107,7 +106,7 @@ class CalculatorTest {
         calc.dust = 5000 // But lvl 29!!
         calc.cp = 2579
         calc.hp = 197
-        calc.maxRange = PokemonIvCalculator.LeaderSayings.VERY_GOOD
+        calc.maxValue = VERY_GOOD
         val result = calc.calculate(vaporeon)
         assertThat(result, hasExactStats(29, 14, 14, 12))
     }
@@ -121,7 +120,7 @@ class CalculatorTest {
         calc.dust = 3500
         calc.cp = 706
         calc.hp = 86
-        calc.maxRange = PokemonIvCalculator.LeaderSayings.VERY_GOOD
+        calc.maxValue = VERY_GOOD
         val result = calc.calculate(exeggcute)
         assertThat(result, hasStats(24, 12, 9, 13))
     }
@@ -141,5 +140,12 @@ class CalculatorTest {
                         .appendText(" and def ").appendValue(def)
             }
         }
+    }
+
+    @Test fun forFunsies() {
+        calc.usedPowerUp = true
+        println("Boosted Alakazam (2458, 91):")
+        println(calc.calcCp(alakazam, 30, 14, 14, 12))
+        println(calc.calcHp(alakazam, 30, 14))
     }
 }
