@@ -1,7 +1,7 @@
 package com.dlgdev.goivcalc.models
 
-import com.dlgdev.goivcalc.models.PokemonIvCalculator.LeaderSayings.PERFECT
-import com.dlgdev.goivcalc.models.PokemonIvCalculator.LeaderSayings.VERY_GOOD
+import com.dlgdev.goivcalc.models.PokemonIvCalculator.LeaderStatSayings.PERFECT
+import com.dlgdev.goivcalc.models.PokemonIvCalculator.LeaderStatSayings.VERY_GOOD
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -28,7 +28,7 @@ class PokemonIvCalculatorTest {
         calc.dust = 5000
         calc.cp = 2764
         calc.hp = 144
-        calc.maxValue = PERFECT
+        calc.statRange = PERFECT
         val result = calc.calculate(gyarados)
         assertThat(result, hasExactStats(30, 8, 15, 15))
     }
@@ -60,7 +60,7 @@ class PokemonIvCalculatorTest {
         calc.dust = 5000
         calc.cp = 2438
         calc.hp = 90
-        calc.maxValue = VERY_GOOD
+        calc.statRange = VERY_GOOD
         val result = calc.calculate(alakazam)
         assertThat(result, hasExactStats(30, 14, 14, 12))
     }
@@ -76,7 +76,7 @@ class PokemonIvCalculatorTest {
         calc.dust = 5000
         calc.cp = 2458
         calc.hp = 91
-        calc.maxValue = VERY_GOOD
+        calc.statRange = VERY_GOOD
         val result = calc.calculate(alakazam)
         assertThat(result, hasExactStats(30, 14, 14, 12, true))
     }
@@ -91,7 +91,7 @@ class PokemonIvCalculatorTest {
         calc.dust = 5000
         calc.cp = 2471
         calc.hp = 149
-        calc.maxValue = PERFECT
+        calc.statRange = PERFECT
         val result = calc.calculate(exeggutor)
         assertThat(result, hasExactStats(30, 15, 15, 11))
     }
@@ -106,7 +106,7 @@ class PokemonIvCalculatorTest {
         calc.dust = 5000 // But lvl 29!!
         calc.cp = 2579
         calc.hp = 197
-        calc.maxValue = VERY_GOOD
+        calc.statRange = VERY_GOOD
         val result = calc.calculate(vaporeon)
         assertThat(result, hasExactStats(29, 14, 14, 12))
     }
@@ -120,7 +120,7 @@ class PokemonIvCalculatorTest {
         calc.dust = 3500
         calc.cp = 706
         calc.hp = 86
-        calc.maxValue = VERY_GOOD
+        calc.statRange = VERY_GOOD
         val result = calc.calculate(exeggcute)
         assertThat(result, hasStats(24, 12, 9, 13))
     }

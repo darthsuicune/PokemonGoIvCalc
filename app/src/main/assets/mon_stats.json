@@ -891,8 +891,16 @@
     },
     {
       "id": 103,
+      "form": 0,
       "stamina": 190,
       "attack": 233,
+      "defense": 158
+    },
+    {
+      "id": 103,
+      "form": 1,
+      "stamina": 190,
+      "attack": 230,
       "defense": 158
     },
     {

@@ -13,16 +13,17 @@ import java.io.InputStreamReader
 
 @Module
 class MonsModule {
+    val statsFile = "mon_stats.json"
 
-    @Provides fun provideSavedMons(context: Context): Map<Int, Pokemon> {
+    @Provides fun provideSavedMons(context: Context): Map<Pair<Int, Int>, Pokemon> {
         val names = context.resources.getStringArray(R.array.mon_names)
         val monStats =
-                Gson().fromJson<PokemonStats>(InputStreamReader(context.assets.open("mon_stats")),
+                Gson().fromJson<PokemonStats>(InputStreamReader(context.assets.open(statsFile)),
                         PokemonStats::class.java)
-        return monStats.mons.map { it.name = names[it.id]; it.id to it }.toMap()
+        return monStats.mons.map { it.name = names[it.id]; it.id to it.form to it }.toMap()
     }
 
-    @Provides fun provideMonRepo(mons: Map<Int, Pokemon>): PokemonRepo {
+    @Provides fun provideMonRepo(mons: Map<Pair<Int, Int>, Pokemon>): PokemonRepo {
         return PokemonRepoImpl(mons)
     }
 }
