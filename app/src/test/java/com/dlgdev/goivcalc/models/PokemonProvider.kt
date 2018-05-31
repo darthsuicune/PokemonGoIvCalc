@@ -6,8 +6,8 @@ import java.nio.file.Paths
 
 class PokemonProvider {
     val file = "src/main/assets/mon_stats.json"
-    val stats = Gson().fromJson<PokemonStats>(Files.newBufferedReader(Paths.get(file)),
-            PokemonStats::class.java)
+    val stats by lazy { Gson().fromJson<PokemonStats>(Files.newBufferedReader(Paths.get(file)),
+            PokemonStats::class.java) }
 
     fun get(id: Int, form: Int = 0): Pokemon {
         val mon = stats.mons.filter { it.id == id && it.form == form}[0]
