@@ -70,6 +70,8 @@ dependencies {
 
     testImplementation testDeps.junit
     testImplementation testDeps.mockito_core
+    testImplementation testDeps.kotlin_test
+    testImplementation testDeps.hamcrest
 
     androidTestImplementation(testDeps.mockito)
     androidTestImplementation(testDeps.espresso_core, {

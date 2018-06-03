@@ -42,7 +42,7 @@ ext {
             kotlin_stdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             recycler_view       : "com.android.support:recyclerview-v7:${support_library_version}",
             retrofit            : "com.squareup.retrofit2:retrofit:${retrofit_version}",
-            retrofit_gson        : "com.squareup.retrofit2:converter-gson:${retrofit_version}",
+            retrofit_gson       : "com.squareup.retrofit2:converter-gson:${retrofit_version}",
 
             lifecycle           : "android.arch.lifecycle:runtime:${lifecycle_version}",
             lifecycle_extensions: "android.arch.lifecycle:extensions:${lifecycle_version}",
@@ -51,11 +51,14 @@ ext {
 
     //Test
     def junit_version = "4.12"
-    def mockito_version = "2.8.8"
+    def mockito_version = "2.18.3"
     def espresso_version = "2.2.2"
+    def hamcrest_version = "1.3"
 
     testDeps = [
             junit        : "junit:junit:${junit_version}",
+            kotlin_test  : "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
+            hamcrest     : "org.hamcrest:hamcrest-library:${hamcrest_version}",
             mockito      : "org.mockito:mockito-android:${mockito_version}",
             mockito_core : "org.mockito:mockito-core:${mockito_version}",
             espresso_core: "com.android.support.test.espresso:espresso-core:${espresso_version}"
