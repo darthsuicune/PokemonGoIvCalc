@@ -4,9 +4,10 @@ import org.junit.Test
 
 class OtherRandomTests {
     val calc = PokemonIvCalculator()
-    var provider = PokemonProvider()
+    val prov = PokemonProvider()
 
-    val machop = provider.get(66)
+    val machop = prov.get(66)
+    val anorith = prov.get(347)
     val observedCps = arrayOf(16, 34, 51)
 
     @Test
@@ -48,15 +49,13 @@ class OtherRandomTests {
         }
     }
 
-    var kabuto = provider.get(140)
-
-    @Test fun kabutoThatRunAway() {
-        for (level in 25..35) {
+    @Test fun anorith() {
+        for (level in 30..35) {
             println("Level: $level")
-            calc.cp = 1005
+            calc.cp = 1091
             calc.unknownHp = true
 
-            val res = calc.calculate(kabuto, level)
+            val res = calc.calculate(anorith, level)
             res.forEach {
                 println("${it.attack}/${it.defense}/${it.stamina}")
             }

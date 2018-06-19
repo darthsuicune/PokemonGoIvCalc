@@ -3,7 +3,7 @@ package com.dlgdev.goivcalc.models
 import javax.inject.Inject
 
 class PokemonIvCalculator @Inject constructor() {
-    private val cp_multiplier = arrayOf(0.094, 0.16639787, 0.21573247, 0.25572005, 0.29024988,
+    private val cpMultiplier = arrayOf(0.094, 0.16639787, 0.21573247, 0.25572005, 0.29024988,
             0.3210876, 0.34921268, 0.37523559, 0.39956728, 0.42250001,
             0.44310755, 0.46279839, 0.48168495, 0.49985844, 0.51739395,
             0.53435433, 0.55079269, 0.56675452, 0.58227891, 0.59740001,
@@ -41,7 +41,8 @@ class PokemonIvCalculator @Inject constructor() {
     var cp = 10
     var hp = 10
     var unknownHp = false
-    var maxRange = LeaderSayings.UNKNOWN
+    var totalRange = LeaderTotalSayings.UNKNOWN
+    var statRange = LeaderStatSayings.UNKNOWN
 
     fun calculate(pokemon: Pokemon, level: Int): List<CalcResults> {
         val results = mutableListOf<CalcResults>()
@@ -49,44 +50,49 @@ class PokemonIvCalculator @Inject constructor() {
         var minAtk = 0
         var minDef = 0
         if (hpIsMax) {
-            minHp = maxRange.min
+            minHp = statRange.min
         }
         if (atkIsMax) {
-            minAtk = maxRange.min
+            minAtk = statRange.min
         }
         if (defIsMax) {
-            minDef = maxRange.min
+            minDef = statRange.min
         }
 
-        for (hp in minHp..maxRange.max) {
-            for (atk in minAtk..maxRange.max) {
+        for (hp in minHp..statRange.max) {
+            for (atk in minAtk..statRange.max) {
                 if (unknownHp) {
-                    (minDef..maxRange.max)
+                    (minDef..statRange.max)
                             .filter { calcCp(pokemon, level, hp, atk, it) == this.cp }
-                            .filter { maxStatsFilter(hp, atk, it) }
+                            .filter { basedOnMaxStats(hp, atk, it) }
+                            .filter { basedOnTotalStats(hp + atk + it) }
                             .mapTo(results) { CalcResults(level, hp, atk, it, usedPowerUp) }
                 } else {
-                    (minDef..maxRange.max)
+                    (minDef..statRange.max)
                             .filter { calcCp(pokemon, level, hp, atk, it) == this.cp }
+                            .filter { basedOnMaxStats(hp, atk, it) }
+                            .filter { basedOnTotalStats(hp + atk + it) }
                             .filter { calcHp(pokemon, level, hp) == this.hp }
-                            .filter { maxStatsFilter(hp, atk, it) }
                             .mapTo(results) { CalcResults(level, hp, atk, it, usedPowerUp) }
                 }
-
             }
         }
         return results
     }
 
-    private fun maxStatsFilter(hp: Int, atk: Int, def: Int): Boolean {
+    private fun basedOnTotalStats(total: Int): Boolean {
+        return totalRange.min <= total && totalRange.max >= total
+    }
+
+    private fun basedOnMaxStats(hp: Int, atk: Int, def: Int): Boolean {
         return when {
-            atkIsMax && defIsMax && hpIsMax -> hp == atk && atk == def
-            atkIsMax && defIsMax -> atk == def && atk > hp
-            atkIsMax && hpIsMax -> atk == hp && atk > def
-            defIsMax && hpIsMax -> def == hp && def > atk
-            atkIsMax -> atk > def && atk > hp
-            defIsMax -> def > atk && def > hp
+            hpIsMax && atkIsMax && defIsMax -> hp == atk && hp == def
+            hpIsMax && atkIsMax -> hp == atk && hp > def
+            hpIsMax && defIsMax -> hp > atk && hp == def
+            atkIsMax && defIsMax -> hp < def && def == atk
             hpIsMax -> hp > atk && hp > def
+            atkIsMax -> atk > hp && atk > def
+            defIsMax -> def > hp && def > atk
             else -> true
         }
     }
@@ -127,27 +133,31 @@ class PokemonIvCalculator @Inject constructor() {
      */
     private fun cpMultiplier(level: Int): Double {
         if (usedPowerUp) {
-            val scalar = cp_multiplier[level - 1]
+            val scalar = cpMultiplier[level - 1]
             return Math.sqrt(Math.pow(scalar, 2.0) + acpm(level))
         }
-        return cp_multiplier[level - 1]
+        return cpMultiplier[level - 1]
     }
 
     private fun acpm(level: Int): Double {
-        when (level) {
-            in 1..9 -> return 0.009426125469
-            in 10..19 -> return 0.008919025675
-            in 20..29 -> return 0.008924905903
-            in 30..40 -> return 0.00445946079
-            else -> return 0.0
+        return when (level) {
+            in 1..9 -> 0.009426125469
+            in 10..19 -> 0.008919025675
+            in 20..29 -> 0.008924905903
+            in 30..40 -> 0.00445946079
+            else -> 0.0
         }
     }
 
-    enum class LeaderSayings(val min: Int, val max: Int) {
+    enum class LeaderTotalSayings(val min: Int, val max: Int) {
+        BAD(0, 22), GOOD(23, 29), REALLY_GOOD(30, 36), EXEMPLAR(37,45), UNKNOWN(0,45)
+    }
+
+    enum class LeaderStatSayings(val min: Int, val max: Int) {
         AVERAGE(0, 7), GOOD(8, 12), VERY_GOOD(13, 14), PERFECT(15, 15), UNKNOWN(0, 15);
 
         companion object {
-            fun fromSpinner(position: Int): LeaderSayings {
+            fun fromSpinner(position: Int): LeaderStatSayings {
                 return when (position) {
                     1 -> AVERAGE
                     2 -> GOOD
