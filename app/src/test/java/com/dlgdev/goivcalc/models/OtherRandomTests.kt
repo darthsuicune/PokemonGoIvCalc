@@ -8,6 +8,7 @@ class OtherRandomTests {
 
     val machop = prov.get(66)
     val anorith = prov.get(347)
+    var karp = prov.get(129)
     val observedCps = arrayOf(16, 34, 51)
 
     @Test
@@ -59,6 +60,14 @@ class OtherRandomTests {
             res.forEach {
                 println("${it.attack}/${it.defense}/${it.stamina}")
             }
+        }
+    }
+    @Test fun withheldKarp() {
+        calc.cp = 93
+        calc.unknownHp = true
+        val res = calc.calculate(karp, 15)
+        res.forEach {
+            println("${it.attack}/${it.defense}/${it.stamina}")
         }
     }
 }
